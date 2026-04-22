@@ -5,9 +5,9 @@ parts = name.split(".")
 
 # if no file type is input, assumes .txt
 if len(parts) == 1:
-    path = f"/home/willow/work/notes/{name}.txt"
+    path = f"/home/willow/work/note_taker/notes/{name}.txt"
 else:
-    path = f"/home/willow/work/notes/{name}"
+    path = f"/home/willow/work/note_taker/notes/{name}"
 
 open(path, "a", encoding="utf-8").close()
 while True:
