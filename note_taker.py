@@ -4,6 +4,9 @@ import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 config_path = os.path.join(script_dir, "config.txt")
 
+# checks if config file exists and takes notes path from it
+# if it doesnt exist, creates it and asks the user for the directory to put notes in
+# doesnt accept invalid paths
 def get_notes_path():
     if os.path.exists(config_path):
         with open(config_path, "r", encoding="utf-8") as f:
