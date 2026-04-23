@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 config_path = os.path.join(script_dir, "config.txt")
@@ -18,10 +19,10 @@ def get_notes_path():
         if not os.path.isdir(inp_path):
             print("Invalid Path!")
             continue
-        else:
-            with open(config_path, "w", encoding="utf-8") as f:
-                f.write(inp_path)
-            return inp_path
+
+        with open(config_path, "w", encoding="utf-8") as f:
+            f.write(inp_path)
+        return inp_path
 
 def delete_line(lines, index=None):
     try:
@@ -49,7 +50,8 @@ def main():
     else:
         path = os.path.join(notes_dir, name)
 
-    open(path, "a", encoding="utf-8").close()
+    with open(path, "a", encoding="utf-8") as f:
+        pass
     while True:
 
         with open(path, "r", encoding="utf-8") as f:
@@ -65,7 +67,7 @@ def main():
 
         if inp == "q":
             print("Exiting...")
-            exit()
+            sys.exit()
 # deletes previous line is del is entered without line number using delete_line() function
 # deletes line n del n using delete_line() function
         if len(input_parts) == 2 and input_parts[0] == "del":
