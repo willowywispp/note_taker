@@ -1,6 +1,25 @@
 #!/usr/bin/env python3
 import os
 
+script_dir = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(script_dir, "config.txt")
+
+def get_notes_path():
+    if os.path.exists(config_path):
+        with open(config_path, "r", encoding="utf-8") as f:
+            path = f.read().strip()
+        return path
+
+    while True:
+        inp_path = os.path.abspath(os.path.expanduser(input("Enter directory to store notes: ")))
+        if not os.path.isdir(inp_path):
+            print("Invalid Path!")
+            continue
+        else:
+            with open(config_path, "w", encoding="utf-8") as f:
+                f.write(inp_path)
+            return inp_path
+
 def delete_line(lines, index=None):
     try:
         if index is None:
@@ -17,14 +36,15 @@ def edit_line(lines, index, message):
     return lines
 
 def main():
+    notes_dir = get_notes_path()
     name = input("Input File Name: ")
     filename_parts = name.split(".")
 
     # if no file type is input, assumes .txt
     if len(filename_parts) == 1:
-        path = f"/home/willow/work/note_taker/notes/{name}.txt"
+        path = os.path.join(notes_dir, f"{name}.txt")
     else:
-        path = f"/home/willow/work/note_taker/notes/{name}"
+        path = os.path.join(notes_dir, name)
 
     open(path, "a", encoding="utf-8").close()
     while True:
