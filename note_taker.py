@@ -9,6 +9,16 @@ if len(filename_parts) == 1:
 else:
     path = f"/home/willow/work/note_taker/notes/{name}"
 
+def delete_line(lines, index=None):
+    try:
+        if index is None:
+            lines.pop()
+        else:
+            lines.pop(index - 1)
+    except IndexError:
+        pass
+    return lines
+
 open(path, "a", encoding="utf-8").close()
 while True:
 
@@ -27,24 +37,17 @@ while True:
         print("Exiting...")
         exit()
 # deletes previous line if 'del' is entered,
-    try:
-        if len(input_parts) == 2 and input_parts[0] == "del":
-            line_num = int(input_parts[1])
-            lines.pop(line_num - 1)
-            with open(path, "w", encoding="utf-8") as f:
-                f.writelines(lines)
-            print(f"Deleted Line {line_num}")
-            continue
-        if inp == "del":
-            deleted_line = len(lines)
-            lines.pop()
-            with open(path, "w", encoding="utf-8") as f:
-                f.writelines(lines)
-            print(f"Deleted Line {deleted_line}")
-            continue
-    except IndexError:
-        print("No more lines to delete!")
+    if len(input_parts) == 2 and input_parts[0] == "del":
+        lines = delete_line(lines, int(input_parts[1]))
+        with open(path, "w", encoding="utf-8") as f:
+            f.writelines(lines)
         continue
+    if inp == "del":
+        lines = delete_line(lines)
+        with open(path, "w", encoding="utf-8") as f:
+            f.writelines(lines)
+        continue
+
 
     with open(path, "a", encoding="utf-8") as f:
         f.write(inp + "\n")
